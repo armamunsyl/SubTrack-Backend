@@ -42,7 +42,8 @@ router.post('/verify', async (req, res) => {
     res.json({ token, user: payload });
   } catch (error) {
     console.error('Token verification error:', error.message);
-    res.status(401).json({ message: 'Invalid Firebase token' });
+    console.error('Firebase apps initialized:', require('firebase-admin').apps.length);
+    res.status(401).json({ message: 'Invalid Firebase token', detail: error.message });
   }
 });
 

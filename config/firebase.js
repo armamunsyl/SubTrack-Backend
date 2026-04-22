@@ -11,17 +11,20 @@ const initFirebase = () => {
   }
 
   try {
+    const privateKey = FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n');
+    console.log('🔑 Private key starts with:', privateKey.substring(0, 40));
+    console.log('🔑 Private key ends with:', privateKey.substring(privateKey.length - 40));
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: FIREBASE_PROJECT_ID,
-        privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        privateKey,
         clientEmail: FIREBASE_CLIENT_EMAIL,
       }),
     });
     console.log('✅ Firebase Admin initialized');
   } catch (err) {
     console.error('❌ Firebase init failed:', err.message);
-    console.warn('⚠️  Server running without Firebase — fill in .env to enable auth');
+    console.error('❌ Stack:', err.stack);
   }
 };
 
