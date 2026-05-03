@@ -65,7 +65,11 @@ router.get('/:id', async (req, res) => {
 // POST /api/accounts
 router.post('/', async (req, res) => {
   try {
-    const account = new Account({ ...req.body, createdBy: req.user.uid });
+    const account = new Account({
+      ...req.body,
+      addedAt: req.body.addedAt || new Date(),
+      createdBy: req.user.uid,
+    });
     await account.save();
     res.status(201).json(account);
   } catch (error) {
@@ -80,7 +84,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     // Don't overwrite members via PUT — members are managed separately
-    const { members, ...rest } = req.body;
+    const { members, createdAt, updatedAt, ...rest } = req.body;
     const account = await Account.findOneAndUpdate(
       { _id: req.params.id, createdBy: req.user.uid },
       rest,

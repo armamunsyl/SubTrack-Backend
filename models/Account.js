@@ -27,6 +27,7 @@ const accountSchema = new mongoose.Schema(
     totalSlots: { type: Number, default: 1, min: 1 },
     usedSlots: { type: Number, default: 0, min: 0 },
     price: { type: Number, default: 0 },
+    addedAt: { type: Date },
     purchasedDate: { type: Date },
     validityDate: { type: Date, required: true },
     status: {
